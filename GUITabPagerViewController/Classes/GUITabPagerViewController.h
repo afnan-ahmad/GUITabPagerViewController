@@ -33,6 +33,7 @@
 @optional
 - (UIView *)viewForTabAtIndex:(NSInteger)index;
 - (NSString *)titleForTabAtIndex:(NSInteger)index;
+- (NSAttributedString *)attributedTitleForTabAtIndex:(NSInteger)index;
 - (CGFloat)tabHeight;
 - (UIColor *)tabColor;
 - (UIColor *)tabBackgroundColor;

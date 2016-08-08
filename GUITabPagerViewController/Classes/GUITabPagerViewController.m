@@ -121,7 +121,13 @@
       [[self viewControllers] addObject:viewController];
     }
     
-    if ([[self dataSource] respondsToSelector:@selector(titleForTabAtIndex:)]) {
+      if ([[self dataSource] respondsToSelector:@selector(attributedTitleForTabAtIndex:)]) {
+          NSAttributedString *title;
+          if ((title = [[self dataSource] attributedTitleForTabAtIndex:i]) != nil) {
+              [[self tabTitles] addObject:title];
+          }
+      }
+    else if ([[self dataSource] respondsToSelector:@selector(titleForTabAtIndex:)]) {
       NSString *title;
       if ((title = [[self dataSource] titleForTabAtIndex:i]) != nil) {
         [[self tabTitles] addObject:title];
@@ -189,20 +195,37 @@
     } else {
       color = [UIColor blackColor];
     }
-    
-    for (NSString *title in [self tabTitles]) {
-      UILabel *label = [UILabel new];
-      [label setText:title];
-      [label setTextAlignment:NSTextAlignmentCenter];
-      [label setFont:font];
-      [label setTextColor:color];
-      [label sizeToFit];
       
-      CGRect frame = [label frame];
-      frame.size.width = MAX(frame.size.width + 20, 85);
-      [label setFrame:frame];
-      [tabViews addObject:label];
-    }
+      if ([[self dataSource] respondsToSelector:@selector(attributedTitleForTabAtIndex:)]) {
+          for (NSAttributedString *title in [self tabTitles]) {
+              UILabel *label = [UILabel new];
+              [label setAttributedText:title];
+              [label setTextAlignment:NSTextAlignmentCenter];
+              [label setFont:font];
+              [label setTextColor:color];
+              [label sizeToFit];
+              
+              CGRect frame = [label frame];
+              frame.size.width = MAX(frame.size.width + 20, 85);
+              [label setFrame:frame];
+              [tabViews addObject:label];
+          }
+      }else {
+          
+          for (NSString *title in [self tabTitles]) {
+              UILabel *label = [UILabel new];
+              [label setText:title];
+              [label setTextAlignment:NSTextAlignmentCenter];
+              [label setFont:font];
+              [label setTextColor:color];
+              [label sizeToFit];
+              
+              CGRect frame = [label frame];
+              frame.size.width = MAX(frame.size.width + 20, 85);
+              [label setFrame:frame];
+              [tabViews addObject:label];
+          }
+      }
   }
   
   if ([self header]) {
