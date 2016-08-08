@@ -199,6 +199,7 @@
       if ([[self dataSource] respondsToSelector:@selector(attributedTitleForTabAtIndex:)]) {
           for (NSAttributedString *title in [self tabTitles]) {
               UILabel *label = [UILabel new];
+              [label setNumberOfLines:0];
               [label setAttributedText:title];
               [label setTextAlignment:NSTextAlignmentCenter];
               [label setFont:font];
@@ -214,6 +215,7 @@
           
           for (NSString *title in [self tabTitles]) {
               UILabel *label = [UILabel new];
+              [label setNumberOfLines:0];
               [label setText:title];
               [label setTextAlignment:NSTextAlignmentCenter];
               [label setFont:font];
